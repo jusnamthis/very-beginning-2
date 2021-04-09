@@ -17,3 +17,40 @@
 # *****
 # *****
 # **
+
+class Cell:
+    def __init__(self, cells):
+        if isinstance(cells, int):
+            self.cells = cells
+        else:
+            raise ValueError('Не верные данные, введите целое число')
+
+    def __add__(self, other):
+        two_cells_sum = self.cells + other.cells
+        return two_cells_sum
+
+    def __sub__(self, other):
+        if self.cells > other.cells :
+            two_cells_sub = self.cells - other.cells
+            return two_cells_sub
+        else:
+            print('Операцию выполнить невозможно, количество ячеек первой клетки превышает количество ячеек второй')
+            return self.cells
+
+    def __mul__(self, other):
+        self.cells = self.cells * other.cells
+        other.cells = self.cells
+        print(self.cells, id(self.cells), other.cells, id(other.cells)) # создаётся общая клетка из двух - теперь
+        # other.cells ссылается на self.cells
+        return self.cells
+
+    def __truediv__(self, other):
+        self.cells = self.cells // other.cells
+        other.cells = self.cells
+        print(self.cells, id(self.cells), other.cells, id(other.cells))
+        return self.cells
+
+    def print(self, colomns):
+        for _ in range(self.cells // colomns):
+            print('*' * colomns)
+        print('*' * (self.cells % colomns))
