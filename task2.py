@@ -23,31 +23,35 @@
 
 
 from abc import ABC, abstractmethod
+from random import randint
 
 
 class Clothes(ABC):
 
-    @property
-    def cloth_size(self):
-        return self.get_size()
-
-    @abstractmethod
-    def get_size(self):
-        print('Я вычисляю количество ткани')
-
-
-class Suit(Clothes):
     fabric_size = 0
 
     @property
     def cloth_size(self):
-        return self.get_size()
+        print(f'Итого: {self.fabric_size}')
+
+    @abstractmethod
+    def get_size(self):
+        print('что-то делаю')
+
+
+class Suit(Clothes):
+
+    @property
+    def cloth_size(self):
+        self.get_size()
 
     def __init__(self, height):
         self.height = height
 
     def get_size(self):
-        return 2 * self.height + 0.3
+        fabric_amount = 2 * self.height + 0.3
+        Clothes.fabric_size += fabric_amount
+        print(f'{fabric_amount} - Suit (height: {self.height})')
 
 
 class Coat(Clothes):
@@ -57,14 +61,32 @@ class Coat(Clothes):
 
     @property
     def cloth_size(self):
-        return self.get_size()
+        self.get_size()
 
     def get_size(self):
-        return self.size * 6.5 + 0.5
+        fabric_amount = self.size * 6.5 + 0.5
+        Clothes.fabric_size += fabric_amount
+        print(f'{fabric_amount} - Coat (height: {self.size})')
 
 
-coat = Coat(3)
-print(coat.cloth_size)
 
-suit = Suit(15)
-print(suit.cloth_size)
+
+coat = Coat(randint(0, 50))
+coat.cloth_size
+suit = Suit(randint(0, 20))
+suit.cloth_size
+coat1 = Coat(randint(0, 50))
+coat1.cloth_size
+suit1 = Suit(randint(0, 20))
+suit1.cloth_size
+print(f'Итого: {Clothes.fabric_size}')
+
+
+
+# Не совсем понял, как реализовать метод cloth_size, точнее исходя из условия - он должен вызывать метод get_size
+# Если get_size вычисляет каждый раз под конкретный случай необходимое количество ткани, то он либо каждый раз
+# выводит строку вида 30.3 - Suit (height: 15), либо возвращает значение, которое мы затем выводим т.е не совсем
+# понятно, как в таком случае cloth_size может в конечном счёте вывести итог, не вызывая при этом get_size чтобы
+# вывод был именно вида Итого: 250.3
+# Поэтому сделал вывод уже в мейне, обратившись к переменной класса
+# пайчарм сильно ругается на мои строки кода с 74 по 81, объясните почему, пожалуйста
